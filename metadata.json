@@ -1,0 +1,6 @@
+{
+  "name": "Mete Kırtasiye - Kategori Ağacı & UX Gezinme Mimarisi",
+  "description": "Mete Kırtasiye (metekirtasiye.com.tr) için optimize edilmiş sade kategori mimarisi, senaryo butonları, 2-3 tık gezinme simülatörü ve e-ticaret Excel ürün entegrasyon formatı.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
