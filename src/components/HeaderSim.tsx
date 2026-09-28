@@ -25,20 +25,19 @@ import {
   Building2,
 } from 'lucide-react';
 import { METE_CATEGORIES, SAMPLE_CATALOG_DATA } from '../data/stationeryData';
-import { MainCategory } from '../types/architecture';
+import { MainCategory, ProductCatalogRow } from '../types/architecture';
+import { LiveSearchDropdown } from './LiveSearchDropdown';
 
 interface HeaderSimProps {
   onSelectCategory?: (category: MainCategory) => void;
   activeCategoryId?: string;
   cartCount: number;
   cartTotalAmount?: number;
-  onAddToCart: (productTitle: string) => void;
+  onAddToCart: (product: ProductCatalogRow | string) => void;
   onOpenCartPreview?: () => void;
   onOpenPrintModal?: () => void;
-  onOpenSellerAuth?: () => void;
-  isSellerLoggedIn?: boolean;
-  onOpenDeryaB2B?: (tab?: 'products' | 'orders' | 'reports' | 'payment' | 'statement' | 'catalog') => void;
-  onOpenMeteB2B?: () => void;
+  onFilterVitrinBySearch?: (query: string) => void;
+  onOpenQuickView?: (product: ProductCatalogRow) => void;
 }
 
 const getCategoryIcon = (iconName: string) => {
@@ -70,17 +69,12 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
   onAddToCart,
   onOpenCartPreview,
   onOpenPrintModal,
-  onOpenSellerAuth,
-  isSellerLoggedIn,
-  onOpenDeryaB2B,
-  onOpenMeteB2B,
+  onFilterVitrinBySearch,
+  onOpenQuickView,
 }) => {
   const [hoveredCategory, setHoveredCategory] = useState<MainCategory | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [searchFeedback, setSearchFeedback] = useState<string | null>(null);
   const [activeNavTab, setActiveNavTab] = useState('anasayfa');
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -94,29 +88,6 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
       setHoveredCategory(null);
     }, 180);
   };
-
-  // Filtered live results for autocomplete search
-  const searchResults = searchQuery.trim().length > 1
-    ? SAMPLE_CATALOG_DATA.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.mainCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.subCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.tags.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.brand.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 5)
-    : [];
-
-  const matchedCategories = searchQuery.trim().length > 1
-    ? METE_CATEGORIES.filter(
-        (cat) =>
-          cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          cat.subCategories.some((sub) =>
-            sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            sub.searchKeywords.some((k) => k.toLowerCase().includes(searchQuery.toLowerCase()))
-          )
-      )
-    : [];
 
   return (
     <header className="w-full bg-[#1e2025] text-white border-b border-[#2d3038] sticky top-0 z-40 shadow-md">
@@ -142,143 +113,51 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
           </a>
         </div>
 
-        {/* Görseldeki gibi Yuvarlak Beyaz Arama Kutusu */}
-        <div className="flex-1 max-w-md relative hidden md:block">
-          <div className="relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setTimeout(() => setSearchFocused(false), 250)}
-              placeholder="🔎 Ürün veya kategori ara..."
-              className="w-full bg-white text-slate-900 placeholder:text-slate-500 text-xs sm:text-sm rounded-full pl-5 pr-10 py-2 sm:py-2.5 outline-none border-2 border-transparent focus:border-[#f43f2d] shadow-sm transition-all"
-            />
-            <Search className="w-4 h-4 text-purple-600 absolute right-4 top-3" />
-          </div>
-
-          {searchFeedback && (
-            <div className="absolute left-0 right-0 -top-8 bg-[#f43f2d] text-white text-xs px-3 py-1 rounded-md shadow-sm flex items-center gap-1.5 animate-fadeIn">
-              <Check className="w-3.5 h-3.5" />
-              <span>{searchFeedback}</span>
-            </div>
-          )}
-
-          {/* Anlık Canlı Arama Sonuç Penceresi (Autocomplete Dropdown) */}
-          {searchFocused && searchQuery.trim().length > 1 && (
-            <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-xl shadow-2xl p-3 z-50 text-slate-900 animate-fadeIn">
-              {matchedCategories.length > 0 && (
-                <div className="mb-3 pb-2 border-b border-slate-100">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-                    İlgili Kategoriler
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {matchedCategories.map((cat) => (
-                      <button
-                        key={cat.id}
-                        onMouseDown={() => onSelectCategory && onSelectCategory(cat)}
-                        className="text-xs font-medium text-slate-700 hover:text-[#f43f2d] bg-slate-100 hover:bg-rose-50 px-2.5 py-1 rounded-md transition-colors"
-                      >
-                        {cat.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div>
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-                  Eşleşen Ürünler ({searchResults.length})
-                </div>
-                {searchResults.length === 0 ? (
-                  <div className="text-xs text-slate-500 py-3 text-center">
-                    "{searchQuery}" için ürün bulunamadı. Lütfen ana kategorilere göz atın.
-                  </div>
-                ) : (
-                  <div className="space-y-1.5">
-                    {searchResults.map((item) => (
-                      <div
-                        key={item.barcode}
-                        className="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 border border-slate-100 transition-colors"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <img
-                            src={item.imageUrl}
-                            alt={item.title}
-                            className="w-9 h-9 object-cover rounded border border-slate-200"
-                          />
-                          <div>
-                            <div className="text-xs font-semibold text-slate-900 line-clamp-1">
-                              {item.title}
-                            </div>
-                            <div className="text-[10px] text-slate-500">
-                              {item.mainCategory} · {item.brand}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="text-xs font-bold text-[#f43f2d]">
-                            {item.discountPrice ? item.discountPrice : item.priceWithVat} TL
-                          </div>
-                          <button
-                            onMouseDown={() => {
-                              onAddToCart(item.title);
-                              setSearchFeedback(`"${item.title}" sepete eklendi!`);
-                              setTimeout(() => setSearchFeedback(null), 2500);
-                            }}
-                            className="text-xs bg-[#f43f2d] hover:bg-[#d93424] text-white px-2.5 py-1.5 rounded-md transition-colors font-semibold whitespace-nowrap cursor-pointer"
-                          >
-                            + Ekle
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+        {/* ===================== CANLI ARAMA (LIVE SEARCH) BİLEŞENİ - MASAÜSTÜ ===================== */}
+        <div className="flex-1 max-w-lg hidden md:block">
+          <LiveSearchDropdown
+            onSelectCategory={onSelectCategory}
+            onAddToCart={onAddToCart}
+            onFilterVitrinBySearch={onFilterVitrinBySearch}
+            onOpenQuickView={onOpenQuickView}
+          />
         </div>
 
-        {/* Sağ: İletişim, B2B Toptan Portalı, Satıcı Girişi & Hızlı Sepet */}
+        {/* Sağ: İletişim, WhatsApp Sipariş Hattı & Hızlı Sepet */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Mete Kırtasiye B2B Kurumsal Katalog Portalı Butonu */}
+          {/* WhatsApp ile Hızlı Sipariş Hattı Butonu */}
+          <a
+            href="https://wa.me/905429876543?text=Merhaba%2C%20Mete%20K%C4%B1rtasiye%27den%20sipari%C5%9F%20vermek%20ve%20bilgi%20almak%20istiyorum."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] hover:text-emerald-300 px-3 py-2 rounded-xl text-xs font-bold border border-[#25D366]/30 transition-all cursor-pointer shadow-xs"
+            title="WhatsApp Üzerinden Hızlı Sipariş Ver"
+          >
+            <span className="text-sm">💬</span>
+            <span className="hidden sm:inline">WhatsApp Sipariş</span>
+          </a>
+
+          {/* Online Fotokopi & Baskı Hizmeti Butonu */}
           <button
             onClick={() => {
-              if (onOpenMeteB2B) onOpenMeteB2B();
-              else if (onOpenDeryaB2B) onOpenDeryaB2B('products');
+              if (onOpenPrintModal) onOpenPrintModal();
             }}
-            className="flex items-center gap-1.5 bg-[#1b253b] hover:bg-[#253350] text-amber-300 hover:text-amber-200 px-3 py-2 rounded-xl text-xs font-bold border border-amber-500/40 transition-all cursor-pointer shadow-xs"
-            title="Mete Kırtasiye Kurumsal B2B Online Katalog & Sipariş Portalı"
+            className="flex items-center gap-1.5 bg-[#252830] hover:bg-[#323642] text-rose-300 hover:text-white px-3 py-2 rounded-xl text-xs font-bold border border-rose-500/30 transition-all cursor-pointer shadow-xs"
+            title="PDF Yükle & Fotokopi / Tez Spiral Cilt Hesapla"
           >
-            <Building2 className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden sm:inline">Mete B2B Katalog</span>
-            <span className="text-[9px] uppercase px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono">
-              Toptan & Özel Baskı
-            </span>
-          </button>
-
-          {/* Sadece Satıcının Göreceği Panele Geçiş Butonu (Trendyol Partner stili) */}
-          <button
-            onClick={onOpenSellerAuth}
-            className="flex items-center gap-1.5 bg-[#252830] hover:bg-[#323642] text-amber-300 hover:text-amber-200 px-3 py-2 rounded-xl text-xs font-bold border border-amber-500/30 transition-all cursor-pointer shadow-xs"
-            title="Sadece Yetkili Satıcı & Stok Ekranı"
-          >
-            <Store className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden sm:inline">
-              {isSellerLoggedIn ? 'Satıcı Paneli' : 'Satıcı Girişi'}
-            </span>
-            <span className="text-[9px] uppercase px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Partner
-            </span>
+            <Printer className="w-3.5 h-3.5 text-[#f43f2d]" />
+            <span className="hidden md:inline">Online Fotokopi</span>
           </button>
 
           <div className="hidden xl:flex flex-col text-right">
-            <span className="text-[10px] text-slate-400 leading-none">Hızlı Destek & Sipariş</span>
-            <span className="text-xs font-bold text-white flex items-center gap-1 justify-end mt-0.5">
+            <span className="text-[10px] text-slate-400 leading-none">Müşteri Destek & Sipariş</span>
+            <a
+              href="tel:03122700000"
+              className="text-xs font-bold text-white flex items-center gap-1 justify-end mt-0.5 hover:text-[#f43f2d] transition-colors"
+            >
               <Phone className="w-3 h-3 text-[#f43f2d]" />
               0 (312) 270 00 00
-            </span>
+            </a>
           </div>
 
           <button
@@ -303,11 +182,22 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
         </div>
       </div>
 
-      {/* 2. Görseldeki Alt Navigasyon Menüsü (Ana Sayfa, Kampanyalar, Baskı, Siparişler, Sepet, Üyelik, İletişim) */}
+      {/* ===================== CANLI ARAMA (LIVE SEARCH) BİLEŞENİ - MOBİL ===================== */}
+      <div className="md:hidden px-4 pb-3 pt-0.5 border-t border-[#2d3038]/60 bg-[#1e2025]">
+        <LiveSearchDropdown
+          onSelectCategory={onSelectCategory}
+          onAddToCart={onAddToCart}
+          onFilterVitrinBySearch={onFilterVitrinBySearch}
+          onOpenQuickView={onOpenQuickView}
+          placeholder="🔎 Ürün veya kategori ara..."
+        />
+      </div>
+
+      {/* 2. Müşteri Navigasyon Menüsü (Ana Sayfa, Kırtasiye Vitrini, Kampanyalar, Baskı, Sepet, İletişim) */}
       <div className="border-t border-[#2d3038] bg-[#1e2025] px-4 py-1.5 hidden md:block">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <nav className="flex items-center gap-1.5 text-xs font-semibold">
-            {/* Görseldeki gibi Kırmızı Buton: Ana Sayfa */}
+            {/* Kırmızı Buton: Ana Sayfa */}
             <a
               href="#"
               onClick={() => setActiveNavTab('anasayfa')}
@@ -322,6 +212,19 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
             </a>
 
             <a
+              href="#vitrin"
+              onClick={() => setActiveNavTab('vitrin')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                activeNavTab === 'vitrin'
+                  ? 'bg-[#f43f2d] text-white font-bold'
+                  : 'text-slate-300 hover:text-white hover:bg-[#2a2d35]'
+              }`}
+            >
+              <span>🛍️</span>
+              <span>Tüm Ürünler / Vitrin</span>
+            </a>
+
+            <a
               href="#senaryolar"
               onClick={() => setActiveNavTab('kampanyalar')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
@@ -331,7 +234,7 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
               }`}
             >
               <span>🎁</span>
-              <span>Kampanyalar</span>
+              <span>İhtiyaç Paketleri</span>
             </a>
 
             <button
@@ -346,21 +249,8 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
               }`}
             >
               <span>🖨️</span>
-              <span>Baskı Hizmeti</span>
+              <span>Fotokopi & Tez Cilt</span>
             </button>
-
-            <a
-              href="#excel-format"
-              onClick={() => setActiveNavTab('siparisler')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                activeNavTab === 'siparisler'
-                  ? 'bg-[#f43f2d] text-white font-bold'
-                  : 'text-slate-300 hover:text-white hover:bg-[#2a2d35]'
-              }`}
-            >
-              <span>📦</span>
-              <span>Siparişler & Excel</span>
-            </a>
 
             <button
               onClick={() => {
@@ -371,47 +261,21 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#2a2d35] transition-colors cursor-pointer"
             >
               <span>🛒</span>
-              <span>Sepet ({cartCount})</span>
+              <span>Sepetim ({cartCount})</span>
             </button>
-
-            <a
-              href="#ux-raporu"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#2a2d35] transition-colors"
-            >
-              <span>👤</span>
-              <span>Üyelik / Kurumsal</span>
-            </a>
 
             <a
               href="#iletisim"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#2a2d35] transition-colors"
             >
               <span>☎️</span>
-              <span>İletişim</span>
+              <span>Mağaza & İletişim</span>
             </a>
-
-            <button
-              onClick={onOpenSellerAuth}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-amber-300 hover:text-amber-200 hover:bg-[#2a2d35] transition-colors cursor-pointer font-bold"
-            >
-              <span>🏪</span>
-              <span>Satıcı Portalı</span>
-            </button>
-
-            <button
-              onClick={() => {
-                if (onOpenDeryaB2B) onOpenDeryaB2B('products');
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-[#2a2d35] transition-colors cursor-pointer font-bold"
-            >
-              <span>🏢</span>
-              <span>Derya Dağıtım B2B</span>
-            </button>
           </nav>
 
           <div className="flex items-center gap-2 text-[11px] text-amber-400 font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Aynı Gün Kargoda</span>
+            <span>Aynı Gün Kargo · Saat 16:00'ya Kadar</span>
           </div>
         </div>
       </div>
@@ -604,6 +468,22 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
               </button>
             </div>
 
+            {/* Mobil Canlı Arama */}
+            <div className="mb-3.5">
+              <LiveSearchDropdown
+                onSelectCategory={(cat) => {
+                  if (onSelectCategory) onSelectCategory(cat);
+                  setMobileMenuOpen(false);
+                }}
+                onAddToCart={onAddToCart}
+                onFilterVitrinBySearch={(q) => {
+                  if (onFilterVitrinBySearch) onFilterVitrinBySearch(q);
+                  setMobileMenuOpen(false);
+                }}
+                placeholder="🔎 Ürün veya kategori ara..."
+              />
+            </div>
+
             {/* Mobil Hızlı Butonlar */}
             <div className="grid grid-cols-2 gap-2 mb-3">
               <a
@@ -625,24 +505,22 @@ export const HeaderSim: React.FC<HeaderSimProps> = ({
             </div>
 
             <div className="grid grid-cols-2 gap-2 mb-4">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenDeryaB2B) onOpenDeryaB2B('products');
-                }}
-                className="bg-[#2a1717] border border-red-500/40 text-red-300 p-2.5 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-1"
+              <a
+                href="#vitrin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="bg-[#2a2d35] hover:bg-[#383c46] text-white p-2.5 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-1"
               >
-                <span>🏢 Derya B2B</span>
-              </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenSellerAuth) onOpenSellerAuth();
-                }}
-                className="bg-[#252830] border border-amber-500/30 text-amber-300 p-2.5 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-1"
+                <span>🛍️ Vitrin</span>
+              </a>
+              <a
+                href="https://wa.me/905429876543?text=Merhaba%2C%20Mete%20K%C4%B1rtasiye%27den%20sipari%C5%9F%20vermek%20istiyorum."
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] p-2.5 rounded-lg text-xs font-bold text-center flex items-center justify-center gap-1"
               >
-                <span>🏪 Satıcı Paneli</span>
-              </button>
+                <span>💬 WhatsApp</span>
+              </a>
             </div>
 
             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">

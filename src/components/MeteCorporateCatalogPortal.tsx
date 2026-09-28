@@ -41,7 +41,7 @@ export interface CorporateProduct {
   sku: string;
   barcode: string;
   title: string;
-  category: 'cantalar' | 'dosyalama' | 'ofis' | 'yazim' | 'defter' | 'promosyon';
+  category: 'cantalar' | 'dosyalama' | 'ofis' | 'yazim' | 'defter' | 'promosyon' | 'okul_sanat';
   categoryLabel: string;
   subCategory: string;
   description: string;
@@ -148,6 +148,82 @@ export const INITIAL_CORPORATE_PRODUCTS: CorporateProduct[] = [
       Uyum: '15.6 İnç Laptop',
       Tasarım: 'İnce & Şık Executive Stil',
       Körük: 'Genişleyebilir Taban',
+    },
+  },
+  {
+    id: 'METE-BAG-04',
+    sku: 'METE-CAN-YAY-04',
+    barcode: '8690333001041',
+    title: 'Yaygan Ortopedik Destekli İlkokul Sırt Çantası (Reflektörlü Güvenlik Şeritli)',
+    category: 'cantalar',
+    categoryLabel: 'Çantalar & Sırt Çantaları',
+    subCategory: 'Ortopedik Okul Çantaları',
+    description: 'Mete Kırtasiye özel kurumsal baskılı Yaygan lisanslı model, omurga anatomisine uyumlu hava kanallı sünger sırt, gece görünür reflektör şeritleri.',
+    listPrice: 640.0,
+    wholesalePrice: 384.0,
+    minOrderQty: 10,
+    boxQty: 6,
+    caseQty: 24,
+    stockQty: 290,
+    imageUrl: 'https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=600&auto=format&fit=crop&q=80',
+    supportsCustomPrint: true,
+    printLocationDefault: 'Ön Cep Üstü - Sıcak Transfer',
+    printTechniques: ['Sıcak Transfer (DTF)', 'Nakış / Dokuma Arma', 'Serigrafi'],
+    specs: {
+      Model: 'Yaygan Ortopedik Lisanslı',
+      Sırt: 'Sünger Destekli Ortopedik',
+      Güvenlik: '3M Reflektif Şeritler',
+      Kapasite: '24 Litre',
+    },
+  },
+  {
+    id: 'METE-BAG-05',
+    sku: 'METE-CAN-BES-05',
+    barcode: '8690333001058',
+    title: 'Mete Lisanslı Termal Yalıtımlı Beslenme Çantası & Çift Bölmeli Kalemlik Seti',
+    category: 'cantalar',
+    categoryLabel: 'Çantalar & Sırt Çantaları',
+    subCategory: 'Beslenme Çantası & Kalemlik',
+    description: 'İç kısmı gıdaya uygun folyo kaplamalı ısı korumalı beslenme çantası ve eşleşen çift fermuarlı geniş kalemlik takımı.',
+    listPrice: 290.0,
+    wholesalePrice: 174.0,
+    minOrderQty: 10,
+    boxQty: 12,
+    caseQty: 48,
+    stockQty: 410,
+    imageUrl: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&auto=format&fit=crop&q=80',
+    supportsCustomPrint: true,
+    printLocationDefault: 'Ön Yüzey Logo Transfer',
+    printTechniques: ['Sıcak Transfer (DTF)', 'Serigrafi'],
+    specs: {
+      Set: 'Beslenme Çantası + Kalemlik (2li)',
+      Yalıtım: 'Gıda Uyumlu Alüminyum Folyo',
+      Omuz: 'Ayarlanabilir Askı',
+    },
+  },
+  {
+    id: 'METE-BAG-06',
+    sku: 'METE-CAN-PRM-06',
+    barcode: '8690333001065',
+    title: 'Mete Kurumsal Promosyon İpli Büzgülü Sırt Çantası (Su İtici İmperteks)',
+    category: 'cantalar',
+    categoryLabel: 'Çantalar & Sırt Çantaları',
+    subCategory: 'Promosyon Sırt Çantaları',
+    description: 'Etkinlik, okul açılışları ve kurumsal hediye dağıtımları için hafif, su itici, geniş serigrafi baskı alanına sahip büzgülü sırt çantası.',
+    listPrice: 75.0,
+    wholesalePrice: 42.0,
+    minOrderQty: 50,
+    boxQty: 50,
+    caseQty: 250,
+    stockQty: 1800,
+    imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80',
+    supportsCustomPrint: true,
+    printLocationDefault: 'Geniş Ön Yüzey Tam Baskı',
+    printTechniques: ['Serigrafi Tek/Çift Renk', 'DTF Transfer'],
+    specs: {
+      Kumaş: '270 Denye İmperteks',
+      Ebat: '35 x 42 cm',
+      Kordon: 'Kalınlaştırılmış Pamuk İp',
     },
   },
 
@@ -430,6 +506,57 @@ export const INITIAL_CORPORATE_PRODUCTS: CorporateProduct[] = [
       Parçalar: 'Termos, Defter, Kalem, 32GB USB',
     },
   },
+
+  // OKUL & SANATSAL KIRTASİYE
+  {
+    id: 'METE-SNT-01',
+    sku: 'METE-SNT-BOY-01',
+    barcode: '8690999007016',
+    title: 'Mete Junior 12li Üçgen Ergonomik Kuru Boya Kalemi (Metal Kutulu)',
+    category: 'okul_sanat',
+    categoryLabel: 'Okul & Sanatsal Kırtasiye',
+    subCategory: 'Boya & Çizim Setleri',
+    description: 'Kırılmaya karşı dayanıklı SV yapıştırma min, ergonomik tutuş sağlayan üçgen gövde, özel firma logo baskılı metal koruma kutusu.',
+    listPrice: 95.0,
+    wholesalePrice: 57.0,
+    minOrderQty: 24,
+    boxQty: 24,
+    caseQty: 144,
+    stockQty: 680,
+    imageUrl: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&auto=format&fit=crop&q=80',
+    supportsCustomPrint: true,
+    printLocationDefault: 'Metal Kutu Kapağı - UV Baskı',
+    printTechniques: ['UV Renkli Baskı', 'Serigrafi'],
+    specs: {
+      Adet: '12 Renk',
+      Gövde: 'Doğal Ihlamur Ağacı',
+      Sağlık: 'EN-71 Avrupa Güvenlik Onaylı',
+    },
+  },
+  {
+    id: 'METE-SNT-02',
+    sku: 'METE-SNT-HAM-02',
+    barcode: '8690999007023',
+    title: 'Mete Doğal 4 Renk Oyun Modelleme Hamuru (Toksik Olmayan - 4x100 gr)',
+    category: 'okul_sanat',
+    categoryLabel: 'Okul & Sanatsal Kırtasiye',
+    subCategory: 'Oyun Hamurları',
+    description: 'Doğal buğday unundan üretilmiş, kurumayan, kurum/anaokulu logolu özel ambalaj kutusunda 4 renk hamur seti.',
+    listPrice: 65.0,
+    wholesalePrice: 39.0,
+    minOrderQty: 20,
+    boxQty: 20,
+    caseQty: 80,
+    stockQty: 540,
+    imageUrl: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&auto=format&fit=crop&q=80',
+    supportsCustomPrint: true,
+    printLocationDefault: 'Ambalaj Üzeri Firma Etiketleme',
+    printTechniques: ['Özel Ambalaj Baskı'],
+    specs: {
+      Ağırlık: '400 gr (4 x 100 gr)',
+      İçerik: 'Gıda Boyası + Doğal Buğday Unu',
+    },
+  },
 ];
 
 interface MeteCorporateCatalogPortalProps {
@@ -487,6 +614,7 @@ export const MeteCorporateCatalogPortal: React.FC<MeteCorporateCatalogPortalProp
     { id: 'yazim', name: 'Yazım & Çizim Araçları', icon: PenTool, count: products.filter((p) => p.category === 'yazim').length },
     { id: 'defter', name: 'Defter & Kağıt Grubu', icon: BookOpen, count: products.filter((p) => p.category === 'defter').length },
     { id: 'promosyon', name: 'Promosyon Grubu', icon: Gift, count: products.filter((p) => p.category === 'promosyon').length },
+    { id: 'okul_sanat', name: 'Okul & Sanatsal', icon: Sparkles, count: products.filter((p) => p.category === 'okul_sanat').length },
   ];
 
   // Distinct Subcategories for selected category
@@ -1062,6 +1190,7 @@ export const MeteCorporateCatalogPortal: React.FC<MeteCorporateCatalogPortalProp
                     <option value="yazim">Yazım & Çizim Araçları</option>
                     <option value="defter">Defter & Kağıt Grubu</option>
                     <option value="promosyon">Promosyon Grubu</option>
+                    <option value="okul_sanat">Okul & Sanatsal Kırtasiye</option>
                   </select>
                 </div>
 
@@ -1089,16 +1218,97 @@ export const MeteCorporateCatalogPortal: React.FC<MeteCorporateCatalogPortalProp
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Fotoğraf URL (veya varsayılan görsel):</label>
+                  <label className="block text-slate-300 font-bold mb-1">Cihazınızdan Fotoğraf Seçin:</label>
                   <input
-                    type="text"
-                    value={uploadImageUrl}
-                    onChange={(e) => setUploadImageUrl(e.target.value)}
-                    placeholder="Boş bırakılırsa kategoriye uygun görsel atanır"
-                    className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          if (event.target?.result) {
+                            setUploadImageUrl(event.target.result as string);
+                          }
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="w-full px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-[11px] file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer"
                   />
                 </div>
               </div>
+
+              <div>
+                <label className="block text-slate-300 font-bold mb-1">Veya Fotoğraf Web Bağlantısı (URL):</label>
+                <input
+                  type="text"
+                  value={uploadImageUrl}
+                  onChange={(e) => setUploadImageUrl(e.target.value)}
+                  placeholder="https://... (Fotoğraf linkini buraya yapıştırabilirsiniz)"
+                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs placeholder:text-slate-600"
+                />
+              </div>
+
+              {/* Hızlı Örnek Stil Seçici */}
+              <div className="space-y-1.5">
+                <span className="text-[11px] text-slate-400 font-semibold block">Hızlı Model Fotoğrafı Seç (Videodaki Tarzlar):</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUploadTitle('Mete Yaygan Lisanslı Ortopedik Sırt Çantası');
+                      setUploadCategory('cantalar');
+                      setUploadSubCategory('Ortopedik Okul Çantaları');
+                      setUploadPrice(395);
+                      setUploadImageUrl('https://images.unsplash.com/photo-1546938576-6e6a64f317cc?w=600&auto=format&fit=crop&q=80');
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-[10px] font-bold border border-slate-700 cursor-pointer"
+                  >
+                    🎒 Ortopedik İlkokul Çantası
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUploadTitle('Mete Business Deri Detaylı Evrak & Laptop Çantası');
+                      setUploadCategory('cantalar');
+                      setUploadSubCategory('Evrak & Laptop Çantaları');
+                      setUploadPrice(440);
+                      setUploadImageUrl('https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600&auto=format&fit=crop&q=80');
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-[10px] font-bold border border-slate-700 cursor-pointer"
+                  >
+                    💼 Laptop & Evrak Çantası
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUploadTitle('Mete Kurumsal Özel Baskılı Arşiv Klasörü (Geniş Sırt)');
+                      setUploadCategory('dosyalama');
+                      setUploadSubCategory('Mekanizmalı Klasörler');
+                      setUploadPrice(58);
+                      setUploadImageUrl('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&auto=format&fit=crop&q=80');
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-[10px] font-bold border border-slate-700 cursor-pointer"
+                  >
+                    📁 Arşiv Klasörü
+                  </button>
+                </div>
+              </div>
+
+              {uploadImageUrl && (
+                <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-3">
+                  <img
+                    src={uploadImageUrl}
+                    alt="Önizleme"
+                    className="w-12 h-12 rounded-lg object-cover border border-slate-700"
+                  />
+                  <div>
+                    <span className="text-[10px] text-emerald-400 font-bold block">✓ Görsel Seçildi ve Hazır</span>
+                    <span className="text-[10px] text-slate-400">Kaydettiğinizde otomatik olarak ilgili kategori vitrinine eklenecektir.</span>
+                  </div>
+                </div>
+              )}
 
               <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
                 <div>
@@ -1750,16 +1960,23 @@ const ProductCustomPrintModal: React.FC<ProductCustomPrintModalProps> = ({
   const [printType, setPrintType] = useState<string>(product.printTechniques[0] || 'Sıcak Transfer (DTF)');
   const [printLocation, setPrintLocation] = useState<string>(product.printLocationDefault);
   const [logoText, setLogoText] = useState<string>('METE KIRTASİYE');
+  const [selectedColor, setSelectedColor] = useState<string>('Asil Lacivert');
 
   if (!isOpen) return null;
 
-  const unitPrice = product.wholesalePrice;
+  // Volume discount calculation
+  let discountRate = 0;
+  if (quantity >= 100) discountRate = 0.15;
+  else if (quantity >= 50) discountRate = 0.10;
+  else if (quantity >= 25) discountRate = 0.05;
+
+  const unitPrice = product.wholesalePrice * (1 - discountRate);
   const totalNet = unitPrice * quantity;
   const totalVat = totalNet * 0.2;
   const grandTotal = totalNet + totalVat;
 
   const handleConfirm = () => {
-    onAddToCart(product, quantity, hasCustomPrint, printNote, printType, printLocation);
+    onAddToCart(product, quantity, hasCustomPrint, printNote, printType, `${printLocation} (${selectedColor})`);
     onClose();
   };
 
@@ -1842,6 +2059,45 @@ const ProductCustomPrintModal: React.FC<ProductCustomPrintModalProps> = ({
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-amber-500/50 text-white font-bold text-xs focus:outline-none focus:border-amber-400"
                     placeholder="Ürüne özel baskı ilavesi yapılacaktır"
                   />
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setPrintNote('Ürüne özel baskı ilavesi yapılacaktır')}
+                      className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/30 hover:bg-amber-500/30"
+                    >
+                      + "Ürüne özel baskı ilavesi yapılacaktır"
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPrintNote('Mete Kitap Kırtasiye vektörel logo ön cebe sıcak transfer baskı olarak uygulanacaktır')}
+                      className="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 text-[10px] hover:text-white"
+                    >
+                      + Vektörel DTF Logo Talimatı
+                    </button>
+                  </div>
+                </div>
+
+                {/* Renk Seçimi */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1.5">
+                    Model Renk Seçimi:
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {['Asil Lacivert', 'Gece Siyahı', 'Bordo Kırmızı', 'Haki Asker Yeşili'].map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => setSelectedColor(c)}
+                        className={`px-3 py-1 rounded-xl text-[11px] font-bold border transition-all cursor-pointer ${
+                          selectedColor === c
+                            ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md'
+                            : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-white'
+                        }`}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1870,12 +2126,24 @@ const ProductCustomPrintModal: React.FC<ProductCustomPrintModalProps> = ({
                       onChange={(e) => setPrintLocation(e.target.value)}
                       className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white"
                     />
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {['Ön Cep Üstü', 'Ön Merkez', 'Sağ Alt', 'Lazer Plaka'].map((pos) => (
+                        <button
+                          key={pos}
+                          type="button"
+                          onClick={() => setPrintLocation(pos)}
+                          className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-amber-300"
+                        >
+                          {pos}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-300 mb-1">
-                    Mock-up Üzerinde Görünen Marka / İsim:
+                    Mock-up Üzerinde Görünen Marka / Logo Metni:
                   </label>
                   <input
                     type="text"
@@ -1892,7 +2160,14 @@ const ProductCustomPrintModal: React.FC<ProductCustomPrintModalProps> = ({
           <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               <span className="font-bold text-white block">Sipariş / Teklif Adedi:</span>
-              <span className="text-[11px] text-slate-400">Asgari sipariş: {product.minOrderQty} Adet</span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-[11px] text-slate-400">Asgari sipariş: {product.minOrderQty} Adet</span>
+                {discountRate > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">
+                    %{(discountRate * 100).toFixed(0)} Toptan İndirim Aktif!
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
@@ -1928,12 +2203,30 @@ const ProductCustomPrintModal: React.FC<ProductCustomPrintModalProps> = ({
               </button>
               <button
                 type="button"
+                onClick={() => setQuantity(25)}
+                className={`px-3 py-2 rounded-xl border text-xs font-bold ${
+                  quantity === 25 ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-800 text-slate-400 border-slate-700'
+                }`}
+              >
+                25 Adet
+              </button>
+              <button
+                type="button"
                 onClick={() => setQuantity(50)}
                 className={`px-3 py-2 rounded-xl border text-xs font-bold ${
                   quantity === 50 ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-800 text-slate-400 border-slate-700'
                 }`}
               >
-                50 Adet
+                50 Adet (%10)
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuantity(100)}
+                className={`px-3 py-2 rounded-xl border text-xs font-bold ${
+                  quantity === 100 ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-800 text-slate-400 border-slate-700'
+                }`}
+              >
+                100 Adet (%15)
               </button>
             </div>
           </div>

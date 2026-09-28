@@ -237,6 +237,21 @@ export const QuickCheckoutModal: React.FC<QuickCheckoutModalProps> = ({
                   </>
                 )}
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const productList = cartItems
+                    .map((item) => `• ${item.quantity}x ${item.title} (${((item.discountPrice ?? item.price) * item.quantity).toFixed(0)} TL)`)
+                    .join('%0A');
+                  const message = `Merhaba Mete Kırtasiye, websitenizden sipariş vermek istiyorum:%0A%0A*Müşteri:* ${encodeURIComponent(name)}%0A*Telefon:* ${encodeURIComponent(phone)}%0A*Adres:* ${encodeURIComponent(address)}%0A%0A*Ürünler:*%0A${productList}%0A%0A*Toplam Tutar:* ${grandTotal.toFixed(2)} TL%0A*Ödeme Türü:* ${paymentMethod === 'card' ? 'Kredi Kartı' : 'Kapıda Ödeme'}`;
+                  window.open(`https://wa.me/905429876543?text=${message}`, '_blank');
+                  onOrderCompleted(`WSP-${Math.floor(100000 + Math.random() * 900000)}`);
+                }}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all active:scale-98"
+              >
+                <span>💬 WhatsApp ile Sipariş Listesini Gönder</span>
+              </button>
             </div>
           </form>
         )}

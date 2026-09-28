@@ -61,9 +61,24 @@ export interface ProductCatalogRow {
   stock: number;
   currency: string;
   imageUrl: string;
+  images?: string[];
   status: 'Aktif' | 'Pasif';
   tags: string;
   unit: string;
+  rating?: number;
+  reviewCount?: number;
+  description?: string;
+  features?: string[];
+  badges?: string[];
+  variants?: {
+    type: string;
+    options: {
+      label: string;
+      value: string;
+      imageUrl?: string;
+      price?: number;
+    }[];
+  };
 }
 
 export interface UserJourney {
